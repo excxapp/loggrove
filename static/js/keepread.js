@@ -31,10 +31,10 @@ function logfile_keepread(_this){
     $("#log_content").html(log_content_html)
 
     if(filter_search_line){
-        var host = "ws://" + location.hostname + ":" + location.port +
+        var host = "wss://" + location.hostname + ":" + location.port +
             "/keepread/?logfile_id="+ logfile_id +"&search_pattern="+ search_pattern
     }else{
-        var host = "ws://" + location.hostname + ":" + location.port + "/keepread/?logfile_id="+ logfile_id
+        var host = "wss://" + location.hostname + ":" + location.port + "/keepread/?logfile_id="+ logfile_id
     }
 
     websocket = new WebSocket(host)
@@ -54,7 +54,7 @@ function logfile_keepread(_this){
         var result = $.parseJSON(evt.data)
         if(result['code']==0){
             var search_result = log_content_searching(result["data"]["contents"], search_pattern)
-            $("#log_content").append(search_result["log_content"])
+            $("#log_content").prepend(search_result["log_content"])
             $("#total_size").text((result['data']['total_size']/1024).toFixed(2))
             $("#total_lines").text((result['data']['total_lines']))
             $("#size").text((parseInt($("#size").text()) + (result['data']['size']/1024)).toFixed(2))
