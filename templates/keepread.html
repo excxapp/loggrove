@@ -3,7 +3,38 @@
 日志轮询
 {% end %}
 {% block head_js %}
+<style type="text/css">
+    @keyframes spinner-line-fade-more {
+  0%, 100% {
+    opacity: 0; /* minimum opacity */
+  }
+  1% {
+    opacity: 1;
+  }
+}
+
+@keyframes spinner-line-fade-quick {
+  0%, 39%, 100% {
+    opacity: 0.25; /* minimum opacity */
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@keyframes spinner-line-fade-default {
+  0%, 100% {
+    opacity: 0.22; /* minimum opacity */
+  }
+  1% {
+    opacity: 1;
+  }
+}
+</style>
+<script src="{{ static_url('js/spin.js') }}"></script>
+<script src="{{ static_url('js/dayjs.min.js') }}"></script>
 <script src="{{ static_url('js/keepread.js') }}"></script>
+
 <script>
     check_in = false
     $(function(){
@@ -47,25 +78,25 @@
                     <div class="col-sm-12 col-lg-10">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="local_logfile_tabpane" style="padding-top: 15px">
-                                <form role="form">
-                                    <div class="form-group">
+                                <form role="form"  class="row">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <label><script>document.write(_("Logfile"))</script> *</label>
                                         <select class="form-control selectpicker" name="logfile_id" data-live-search="true">
                                             <option value=""> ---- </option>
                                         </select>
                                         <span name="logfile_id_error" class="error_text"></span>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <label><script>document.write(_("Search pattern"))</script></label>
                                         <select class="form-control selectpicker" name="search_pattern" data-live-search="true">
                                             <option value=""> ---- </option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <input type="text" class="form-control" name="other_search_pattern">
                                         <span class="error_text" name="search_pattern_error"></span>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <label class="checkbox-inline">
                                             <input type="checkbox" name="filter_search_line" checked> <script>document.write(_("Only view and output matching lines"))</script>
                                         </label>
@@ -107,6 +138,28 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" id="log_content_row" style="display: none">
+    <div class="col-sm-12 col-lg-12" style="clear: both">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span  id="spinjs"></span>
+                <script>document.write(_("Window lines"))</script>:( <span id="window_lines">0</span>)更新时间:<span id="window_update_at" style="color: red;"></span>,交互时间:<span id="time_update_at"></span>
+                <div class="pull-right">
+                    <button class="btn btn-xs btn-primary" onclick="close_websocket()"> <i class="fa fa-stop fa-fw" style=""></i> <script>document.write(_("Close"))</script> </button>
+                    <button class="btn btn-xs btn-warning" onclick="clear_log_content()"> <i class="fa fa-trash-o fa-fw" style=""></i> <script>document.write(_("Clear"))</script> </button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    
+                    <div class="col-lg-12" style="max-height:500px;overflow:auto; clear: both;line-height: 20px" id="log_content">
                     </div>
                 </div>
             </div>
@@ -185,27 +238,6 @@
         </div>
     </div>
 </div>
-
-<div class="row" id="log_content_row" style="display: none">
-    <div class="col-sm-12 col-lg-10" style="clear: both">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <script>document.write(_("Window lines"))</script>: <span id="window_lines">0</span>
-                <div class="pull-right">
-                    <button class="btn btn-xs btn-primary" onclick="close_websocket()"> <i class="fa fa-stop fa-fw" style=""></i> <script>document.write(_("Close"))</script> </button>
-                    <button class="btn btn-xs btn-warning" onclick="clear_log_content()"> <i class="fa fa-trash-o fa-fw" style=""></i> <script>document.write(_("Clear"))</script> </button>
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-12" style="max-height:500px;overflow:auto; clear: both;line-height: 20px" id="log_content">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 {% end %}
 {% block body_js %}
 <script>

@@ -3,7 +3,26 @@
  */
  
 websocket = null
-
+var opts = {
+  lines: 12, // The number of lines to draw
+  length: 3, // The length of each line
+  width: 2, // The line thickness
+  radius: 4, // The radius of the inner circle
+  scale: 1, // Scales overall size of the spinner
+  corners: 1, // Corner roundness (0..1)
+  color: '#000', // CSS color or array of colors
+  fadeColor: 'transparent', // CSS color or array of colors
+  speed: 1, // Rounds per second
+  rotate: 0, // The rotation offset
+  animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  className: 'spinner', // The CSS class to assign to the spinner
+  top: '20px', // Top position relative to parent
+  left: '0', // Left position relative to parent
+  shadow: '', // Box-shadow for the lines
+  position: 'absolute' // Element positioning
+};
 function logfile_keepread(_this){
     if(websocket){
         alert(_("Please close the previous connection or refresh the page"))
@@ -40,6 +59,9 @@ function logfile_keepread(_this){
     websocket = new WebSocket(host)
 
     websocket.onopen = function(evt){
+
+        var target = document.getElementById('spinjs');
+        var spinner = new Spinner(opts).spin(target);
         $("#log_content").empty()
         $("#log_stat_row").show()
         $("#total_size").text(0)
@@ -52,7 +74,12 @@ function logfile_keepread(_this){
     }
     websocket.onmessage = function(evt){
         var result = $.parseJSON(evt.data)
+        $("#time_update_at").text(dayjs().format('HH:mm:ss'))
         if(result['code']==0){
+            if(result["data"]["lines"]){
+                $("#window_update_at").text(dayjs().format('HH:mm:ss'))
+            }
+            
             var search_result = log_content_searching(result["data"]["contents"], search_pattern)
             $("#log_content").prepend(search_result["log_content"])
             $("#total_size").text((result['data']['total_size']/1024).toFixed(2))
@@ -97,9 +124,11 @@ function logfile_keepread(_this){
         if(!check_in){
             $("#log_content").scrollTop($("#log_content")[0].scrollHeight);
         }
+        $("#spinjs").html('')
     }
 
     websocket.onclose = function(evt){
+        $("#spinjs").html('')
         $("#log_content").append("<br><span class=\"error_text\">Connection closed ...</span><br>")
         console.log('onclose')
         if(!check_in) {

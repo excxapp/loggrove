@@ -42,25 +42,25 @@
                     <div class="col-sm-12 col-lg-10">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="local_logfile_tabpane" style="padding-top: 15px">
-                                <form role="form">
-                                    <div class="form-group">
+                                <form role="form"  class="row">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <label><script>document.write(_("Logfile"))</script> *</label>
                                         <select class="form-control selectpicker" name="logfile_id" data-live-search="true">
                                             <option value=""> ---- </option>
                                         </select>
                                         <span name="logfile_id_error" class="error_text"></span>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <label><script>document.write(_("Search pattern"))</script></label>
                                         <select class="form-control selectpicker" name="search_pattern" data-live-search="true">
                                             <option value=""> ---- </option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <input type="text" class="form-control" name="other_search_pattern">
                                         <span class="error_text" name="search_pattern_error"></span>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-sm-6 col-lg-4">
                                         <label class="checkbox-inline">
                                             <input type="checkbox" name="filter_search_line" checked> <script>document.write(_("Only view and output matching lines"))</script>
                                         </label>
@@ -106,6 +106,22 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="row" id="log_content_row" style="display: none">
+    <div class="col-sm-12 col-lg-12" style="clear: both; ">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12" style="max-height:500px;overflow:auto; clear: both;line-height: 20px;" id="log_content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-lg-10" id="paging" style="clear: both; text-align:center; padding-bottom: 20px">
     </div>
 </div>
 
@@ -178,22 +194,6 @@
             </div>
 
         </div>
-    </div>
-</div>
-
-<div class="row" id="log_content_row" style="display: none">
-    <div class="col-sm-12 col-lg-10" style="clear: both; ">
-        <div class="panel panel-default">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-12" style="max-height:500px;overflow:auto; clear: both;line-height: 20px;" id="log_content">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-lg-10" id="paging" style="clear: both; text-align:center; padding-bottom: 20px">
     </div>
 </div>
 
